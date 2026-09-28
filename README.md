@@ -127,10 +127,10 @@ For a deployed service, set `DATABASE_URL` to a PostgreSQL connection string fro
 
 Replace these placeholders after deployment:
 
-- Frontend: `LIVE_FRONTEND_URL`
-- Backend/API: `LIVE_BACKEND_URL`
-- Backend health check: `LIVE_BACKEND_URL/api/health`
-- Backend OpenAPI: `LIVE_BACKEND_URL/docs`
+- Frontend: `https://ai-clinical-document-reviewer-self.vercel.app/`
+- Backend/API: `https://ai-clinical-document-reviewer.onrender.com`
+- Backend health check: `https://ai-clinical-document-reviewer.onrender.com/api/health`
+- Backend OpenAPI doc: `https://ai-clinical-document-reviewer.onrender.com/docs`
 
 `render.yaml` configures a Render Python web service rooted at `backend`, and `frontend/vercel.json` rewrites frontend routes to `index.html` for SPA refreshes.
 
