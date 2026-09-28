@@ -177,6 +177,15 @@ Dashboard tracking saved clinical reviews, processing status flags, and determin
 
 ![Report history](screenshots/history.png)
 
+### Production Deployment & Infrastructure
+- **Frontend on Vercel**: Production deployment status (`Ready`) and custom domain hosting:
+
+![Vercel Frontend Deployment](screenshots/vercel-deployment.png)
+
+- **Backend on Render**: Live FastAPI web service (`Deploy succeeded`), startup logs, and database connectivity:
+
+![Render Backend Deployment](screenshots/render-deployment.png)
+
 ## Sample Documents and Results
 
 The `samples` directory contains synthetic typed, incomplete, inconsistent, handwritten, searchable-PDF, scanned-PDF, and recipe inputs. The live evaluation in [samples/EVALUATION.md](samples/EVALUATION.md) records these outcomes:
