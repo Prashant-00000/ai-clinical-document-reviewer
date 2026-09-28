@@ -32,18 +32,16 @@ export interface VitalsPanel {
   temp?: VitalSign | null
   rr?: VitalSign | null
   spo2?: VitalSign | null
-  weight?: VitalSign | null
-  height?: VitalSign | null
+  other?: VitalSign[]
 }
 
 export interface PatientInformation {
   name?: string | null
   age?: string | null
   sex?: string | null
-  mrn?: string | null
-  date_of_visit?: string | null
-  evidence?: string | null
-  confidence: 'high' | 'medium' | 'low'
+  /** Maps to backend patient_information.id */
+  id?: string | null
+  other?: Record<string, string>
 }
 
 export interface DocumentQuality {

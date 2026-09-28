@@ -20,6 +20,7 @@ from sqlalchemy.orm import sessionmaker
 from app.db.session import Base, get_db
 from app.main import app
 from app.services.llm_client import LLMClient, get_llm_client
+from app.api.routes.analyze import _clear_rate_limit_state
 
 # ---------------------------------------------------------------------------
 # In-memory SQLite engine for tests
@@ -127,8 +128,10 @@ class MockLLMClient(LLMClient):
 @pytest.fixture(autouse=True)
 def _create_tables():
     """Ensure tables exist before each test and drop after."""
+    _clear_rate_limit_state()
     Base.metadata.create_all(bind=_TEST_ENGINE)
     yield
+    _clear_rate_limit_state()
     Base.metadata.drop_all(bind=_TEST_ENGINE)
 
 

@@ -27,7 +27,11 @@ class Settings(BaseSettings):
 
     # Upload limits
     MAX_UPLOAD_MB: int = 10
-    MAX_PDF_PAGES: int = 10
+    MAX_PDF_PAGES: int = 6
+    MAX_TEXT_CHARS: int = 20000
+
+    # Rate limiting
+    RATE_LIMIT_PER_HOUR: int = 30
 
     # Logging
     LOG_LEVEL: str = "INFO"

@@ -81,7 +81,9 @@ Copy `backend/.env.example` to `backend/.env`. Copy `frontend/.env.example` to `
 | `MODEL_NAME` | `gemini-3.5-flash-lite` | Gemini model passed to the SDK for transcription and structured analysis. |
 | `CORS_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Comma-separated browser origins accepted by FastAPI CORS. |
 | `MAX_UPLOAD_MB` | `10` | Maximum upload size checked by the document processor. |
-| `MAX_PDF_PAGES` | `10` | Maximum PDF pages extracted or rendered. |
+| `MAX_PDF_PAGES` | `6` | Maximum PDF pages extracted or rendered. |
+| `MAX_TEXT_CHARS` | `20000` | Maximum characters accepted in a plain-text analysis request. |
+| `RATE_LIMIT_PER_HOUR` | `30` | Maximum `/api/analyze` requests per client IP in one hour. `X-Forwarded-For` is used when present. |
 | `LOG_LEVEL` | `INFO` | Python logging level. |
 
 #### Frontend

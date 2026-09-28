@@ -284,5 +284,9 @@ class FileTooLargeError(Exception):
     pass
 
 
+class TextTooLongError(Exception):
+    pass
+
+
 class InvalidFileError(Exception):
     pass

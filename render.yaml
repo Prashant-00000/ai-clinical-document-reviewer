@@ -14,7 +14,17 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
-      - key: MODEL_NAME
-        value: gemini-3.5-flash-lite
       - key: CORS_ORIGINS
         sync: false
+      - key: MODEL_NAME
+        value: gemini-3.5-flash-lite
+      - key: MAX_UPLOAD_MB
+        value: 10
+      - key: MAX_PDF_PAGES
+        value: 6
+      - key: MAX_TEXT_CHARS
+        value: 20000
+      - key: RATE_LIMIT_PER_HOUR
+        value: 30
+      - key: LOG_LEVEL
+        value: INFO

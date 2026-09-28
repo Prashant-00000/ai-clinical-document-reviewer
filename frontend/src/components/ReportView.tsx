@@ -158,9 +158,8 @@ function ReportSummary({ summary }: { summary: string }) {
             fontSize: '0.9rem', lineHeight: 1.7,
             color: isCritLine && !line.includes('None') ? '#fca5a5' : isReviewLine ? '#c4b5fd' : '#d1d5db',
             fontWeight: isCritLine ? 600 : 400,
-            paddingLeft: i > 0 ? 0 : 0,
+            paddingLeft: isCritLine && !line.includes('None') ? 12 : 0,
             borderLeft: isCritLine && !line.includes('None') ? '3px solid #ef4444' : 'none',
-            paddingLeft2: isCritLine ? 12 : 0,
           } as React.CSSProperties}>
             {line}
           </div>
@@ -260,16 +259,15 @@ export default function ReportView({ report, status }: ReportViewProps) {
             { label: 'Name', value: report.patient_information.name },
             { label: 'Age', value: report.patient_information.age },
             { label: 'Sex', value: report.patient_information.sex },
-            { label: 'MRN', value: report.patient_information.mrn },
-            { label: 'Date of Visit', value: report.patient_information.date_of_visit },
-          ].map(({ label, value }) => (
+            { label: 'MRN', value: report.patient_information.id },
+          ].filter(({ value }) => Boolean(value)).map(({ label, value }) => (
             <div key={label} style={{
               background: 'rgba(17,24,39,0.6)', borderRadius: 10, padding: '12px 14px',
               border: '1px solid rgba(55,65,81,0.3)',
             }}>
               <div style={{ fontSize: '0.65rem', textTransform: 'uppercase', letterSpacing: '0.08em', color: '#6b7280', marginBottom: 4 }}>{label}</div>
-              <div style={{ fontSize: '0.9rem', fontWeight: 500, color: value ? '#e5e7eb' : '#4b5563' }}>
-                {value || '—'}
+              <div style={{ fontSize: '0.9rem', fontWeight: 500, color: '#e5e7eb' }}>
+                {value}
               </div>
             </div>
           ))}
@@ -280,12 +278,15 @@ export default function ReportView({ report, status }: ReportViewProps) {
       {report.vitals && (
         <Section title="Vital Signs" icon={<Activity size={15} color="#10b981" />} accentColor="#10b981">
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 10 }}>
-            <VitalCard label="Heart Rate" item={report.vitals.hr} />
-            <VitalCard label="Blood Pressure" item={report.vitals.bp} />
-            <VitalCard label="Temperature" item={report.vitals.temp} />
-            <VitalCard label="Resp Rate" item={report.vitals.rr} />
-            <VitalCard label="SpO₂" item={report.vitals.spo2} />
-            <VitalCard label="Weight" item={report.vitals.weight} />
+            {[
+              { label: 'Heart Rate',      item: report.vitals.hr },
+              { label: 'Blood Pressure',  item: report.vitals.bp },
+              { label: 'Temperature',     item: report.vitals.temp },
+              { label: 'Resp Rate',       item: report.vitals.rr },
+              { label: 'SpO\u2082',       item: report.vitals.spo2 },
+            ].filter(({ item }) => Boolean(item)).map(({ label, item }) => (
+              <VitalCard key={label} label={label} item={item} />
+            ))}
           </div>
         </Section>
       )}

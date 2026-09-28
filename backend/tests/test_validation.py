@@ -8,6 +8,9 @@ import io
 import pytest
 from fastapi.testclient import TestClient
 
+from app.core.config import settings
+from app.api.routes.analyze import _clear_rate_limit_state
+
 
 # ---------------------------------------------------------------------------
 # Empty input
@@ -26,6 +29,14 @@ def test_blank_text_returns_400(client: TestClient):
     resp = client.post("/api/analyze", data={"text": "   "})
     assert resp.status_code == 400
     assert resp.json()["error"]["code"] == "EMPTY_INPUT"
+
+
+def test_text_over_configured_limit_returns_413(client: TestClient, monkeypatch):
+    """Text over MAX_TEXT_CHARS is rejected before any LLM call."""
+    monkeypatch.setattr(settings, "MAX_TEXT_CHARS", 10)
+    resp = client.post("/api/analyze", data={"text": "01234567890"})
+    assert resp.status_code == 413
+    assert resp.json()["error"]["code"] == "TEXT_TOO_LONG"
 
 
 # ---------------------------------------------------------------------------
@@ -79,3 +90,19 @@ def test_corrupted_png_returns_422(client: TestClient):
     assert resp.status_code == 422
     body = resp.json()
     assert body["error"]["code"] == "INVALID_FILE"
+
+
+def test_rate_limit_uses_forwarded_client_ip(client: TestClient, monkeypatch):
+    """The configured per-IP hourly limit returns the standard 429 envelope."""
+    monkeypatch.setattr(settings, "RATE_LIMIT_PER_HOUR", 2)
+    _clear_rate_limit_state()
+    headers = {"X-Forwarded-For": "203.0.113.10, 10.0.0.1"}
+
+    first = client.post("/api/analyze", data={"text": "Patient Jane."}, headers=headers)
+    second = client.post("/api/analyze", data={"text": "Patient Jane."}, headers=headers)
+    limited = client.post("/api/analyze", data={"text": "Patient Jane."}, headers=headers)
+
+    assert first.status_code == 200
+    assert second.status_code == 200
+    assert limited.status_code == 429
+    assert limited.json()["error"]["code"] == "RATE_LIMITED"
