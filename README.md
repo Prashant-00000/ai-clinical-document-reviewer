@@ -172,6 +172,11 @@ Interactive clinical review displaying document quality, critical safety alerts 
 
 ![Structured report with evidence and warnings](screenshots/report-view.png)
 
+### Clinical Entity Extraction & Evidence Grounding
+Granular extraction of medications, allergies, clinical concerns, and missing information, complete with source-grounded evidence quotes and confidence indicators:
+
+![Clinical Entity Extraction & Evidence Grounding](screenshots/evidence-tracing.png)
+
 ### Report History & Audit Trail
 Dashboard tracking saved clinical reviews, processing status flags, and deterministic priority summaries:
 
