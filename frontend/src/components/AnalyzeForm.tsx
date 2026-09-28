@@ -160,7 +160,7 @@ export default function AnalyzeForm({ onResult }: AnalyzeFormProps) {
                   Drop file here or click to browse
                 </p>
                 <p style={{ fontSize: '0.82rem', color: '#6b7280' }}>
-                  PDF, PNG, JPG, WEBP — up to 10 MB · 10 pages max
+                  PDF, PNG, JPG, WEBP — up to 10 MB · 6 pages max
                 </p>
               </>
             ) : (

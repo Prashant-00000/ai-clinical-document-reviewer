@@ -318,6 +318,13 @@ export default function ReportView({ report, status }: ReportViewProps) {
         </Section>
       )}
 
+      {/* Clinical concerns */}
+      {report.clinical_concerns.length > 0 && (
+        <Section title="Clinical Concerns" icon={<ShieldAlert size={15} color="#f87171" />} count={report.clinical_concerns.length} accentColor="#ef4444">
+          {report.clinical_concerns.map((concern, i) => <ItemRow key={i} item={concern} />)}
+        </Section>
+      )}
+
       {/* Missing information */}
       <Section title="Missing Information" icon={<Info size={15} color="#fb923c" />} count={report.missing_information.length} accentColor="#f97316">
         {report.missing_information.length ? report.missing_information.map((m, i) => <ItemRow key={i} item={m} />) : (

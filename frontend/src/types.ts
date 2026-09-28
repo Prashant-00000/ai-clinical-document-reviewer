@@ -56,6 +56,7 @@ export interface AnalysisReport {
   diagnoses: EvidenceItem[]
   symptoms: EvidenceItem[]
   clinical_observations: EvidenceItem[]
+  clinical_concerns: EvidenceItem[]
   medications: MedicationItem[]
   allergies: EvidenceItem[]
   vitals?: VitalsPanel | null

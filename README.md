@@ -202,7 +202,7 @@ cd backend
 python -m pytest tests/ -v
 ```
 
-The current suite contains 48 tests covering endpoint behavior, schema and evidence validation, consistency rules, file validation, report persistence, and synthetic sample edge cases.
+The current suite contains 50 tests covering endpoint behavior, schema and evidence validation, consistency rules, file validation, report persistence, hardening limits, and synthetic sample edge cases.
 
 ## Documentation
 
