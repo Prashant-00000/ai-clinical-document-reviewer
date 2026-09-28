@@ -1,210 +1,209 @@
 # AI Clinical Document Reviewer
 
-> **All clinical data in this project is entirely synthetic and is not representative of any real patient.**
+> All documents in this repository are synthetic. This project is not intended for real patient data or clinical decision-making.
 
-A full-stack web application that accepts clinical documentation (plain text, PDF, or image) and produces a structured AI-generated clinical report with hallucination guards and safety alerts.
-
----
+AI Clinical Document Reviewer is a full-stack application for submitting a clinical note, image, or PDF and receiving a structured report. The pipeline extracts text, asks Gemini for schema-constrained clinical information, checks that evidence exists in the source, runs deterministic safety rules, and saves the report for later review.
 
 ## Features
 
-- **Multi-modal input** — plain text, typed PDF, scanned PDF, handwritten images
-- **Structured extraction** — diagnoses, symptoms, medications, allergies, vitals, observations
-- **Evidence tracing** — every extracted item includes the exact quote from the source document
-- **Hallucination guard** — fuzzy-matches evidence quotes; flags unverifiable claims
-- **Safety rules** — detects allergy–drug conflicts, implausible vitals, duplicate medications
-- **Priority summary** — 4–6 line clinical summary ordered by clinical importance (critical flags first)
-- **Report history** — all analyses saved, viewable, and deletable
-
----
+- Submit plain text, PNG/JPEG/WebP images, searchable PDFs, and scanned PDFs.
+- Extract patient information, symptoms, diagnoses, medications, allergies, vitals, observations, missing information, and concerns.
+- Attach evidence quotes and confidence levels to extracted items.
+- Use rapidfuzz evidence checks to lower confidence and request review when generated evidence cannot be matched to source text.
+- Run independent consistency checks for allergy/drug conflicts, implausible vitals, unsupported diagnoses, duplicate medications, and missing fields.
+- Generate a deterministic priority summary after all checks.
+- Persist reports and expose history, detail, and delete actions.
+- Distinguish `completed`, `completed_with_warnings`, `failed`, and `no_clinical_content` results.
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Frontend | React 19 + Vite + TypeScript + Tailwind CSS v4 |
-| Backend | Python 3.12 + FastAPI + Pydantic v2 + SQLAlchemy |
-| Database | PostgreSQL (Neon) / SQLite for local dev |
-| AI | Google Gemini Flash (`google-genai` SDK) |
-| Deployment | Vercel (frontend) + Render (backend) |
+| Area | Technology |
+|---|---|
+| Frontend | React 19, TypeScript, Vite 8, Tailwind CSS v4, lucide-react |
+| Backend | Python, FastAPI, Pydantic v2, SQLAlchemy |
+| Document processing | PyMuPDF, Pillow |
+| AI | Google Gemini via `google-genai`; default `MODEL_NAME=gemini-3.5-flash-lite` |
+| Evidence matching | rapidfuzz |
+| Local database | SQLite |
+| Production database option | PostgreSQL, including Neon |
+| Deployment configuration | Vercel frontend, Render backend |
 
----
+## Repository Structure
 
-## Quick Start (Local)
+```text
+.
+├── backend/
+│   ├── app/
+│   │   ├── api/routes/       # analyze, health, and reports endpoints
+│   │   ├── core/config.py    # environment-backed settings
+│   │   ├── db/session.py     # SQLite/PostgreSQL SQLAlchemy setup
+│   │   ├── models/report.py  # persisted report row
+│   │   ├── schemas/          # Pydantic API and analysis schemas
+│   │   └── services/         # processing, Gemini, validation, rules, analysis
+│   ├── tests/                # fixtures and endpoint/rule/evidence tests
+│   ├── Dockerfile
+│   └── requirements.txt
+├── docs/                     # architecture, AI/ML design, decisions
+├── frontend/
+│   ├── src/components/       # form, report view, history, navigation
+│   ├── src/api.ts            # fetch client for backend endpoints
+│   ├── vercel.json           # SPA fallback rewrite
+│   └── package.json
+├── samples/                  # synthetic inputs, generated files, evaluation
+├── render.yaml
+└── README.md
+```
+
+## Architecture Overview
+
+The browser sends a text form or file upload to FastAPI. Text PDFs are read with PyMuPDF. If a PDF contains fewer than 50 extracted characters, PyMuPDF renders pages to PNG and Gemini vision transcribes them. Images go directly to Gemini vision. The analyzer validates the structured response, verifies evidence, runs independent rules, creates the summary, determines the status, and stores the result in SQLite or PostgreSQL.
+
+See [docs/architecture.md](docs/architecture.md) for diagrams and the request sequence, and [docs/ai_ml_design.md](docs/ai_ml_design.md) for prompt and validation details.
+
+## Setup
 
 ### Prerequisites
-- Python ≥ 3.10
-- Node.js ≥ 18
-- A [Google Gemini API key](https://aistudio.google.com/app/apikey)
 
-### 1. Backend
+- Python 3.12 recommended; Render and the Docker image use Python 3.12.0.
+- Node.js 18 or newer.
+- A Gemini API key for live analysis.
 
-```bash
+### Environment Variables
+
+Copy `backend/.env.example` to `backend/.env`. Copy `frontend/.env.example` to `frontend/.env` when using the frontend locally. Never commit either `.env` file.
+
+#### Backend
+
+| Variable | Example/default | Description |
+|---|---|---|
+| `DATABASE_URL` | `sqlite:///./dev.db` | SQLAlchemy database URL. Use a Neon/PostgreSQL URL for production. |
+| `GEMINI_API_KEY` | placeholder | Gemini credential required by `GeminiClient`. |
+| `MODEL_NAME` | `gemini-3.5-flash-lite` | Gemini model passed to the SDK for transcription and structured analysis. |
+| `CORS_ORIGINS` | `http://localhost:5173,http://localhost:3000` | Comma-separated browser origins accepted by FastAPI CORS. |
+| `MAX_UPLOAD_MB` | `10` | Maximum upload size checked by the document processor. |
+| `MAX_PDF_PAGES` | `10` | Maximum PDF pages extracted or rendered. |
+| `LOG_LEVEL` | `INFO` | Python logging level. |
+
+#### Frontend
+
+| Variable | Example/default | Description |
+|---|---|---|
+| `VITE_API_URL` | empty | Backend base URL in production. Leave empty locally so Vite proxies `/api` to `127.0.0.1:8000`. |
+
+### Run the Backend Locally
+
+```powershell
 cd backend
-
-# Create and activate virtual environment
 python -m venv .venv
-# Windows:
-.venv\Scripts\activate
-# macOS/Linux:
-source .venv/bin/activate
-
-# Install dependencies
+.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-
-# Configure environment
-cp .env.example .env
-# Edit .env — set GEMINI_API_KEY (DATABASE_URL defaults to SQLite)
-
-# Start the server
+Copy-Item .env.example .env
+# Edit .env and set GEMINI_API_KEY
 uvicorn app.main:app --reload
 ```
 
-The API is now at `http://127.0.0.1:8000`. OpenAPI docs at `http://127.0.0.1:8000/docs`.
+The API runs at `http://127.0.0.1:8000`. OpenAPI documentation is available at `http://127.0.0.1:8000/docs`. The application creates database tables at startup. SQLite needs no separate database server.
 
-### 2. Frontend
+### Run the Frontend Locally
 
-```bash
+```powershell
 cd frontend
 npm install
-
-# Copy env file (no changes needed for local dev — proxy handles /api routing)
-cp .env.example .env
-
+Copy-Item .env.example .env
 npm run dev
 ```
 
-Frontend is now at `http://localhost:5173`.
+The Vite development server runs at `http://localhost:5173` and proxies requests beginning with `/api` to the local backend.
 
-### 3. Test with curl (PowerShell)
+### Database Setup
+
+For local development, keep `DATABASE_URL=sqlite:///./dev.db`. The SQLite file is created under `backend` when the backend runs and is ignored by Git.
+
+For a deployed service, set `DATABASE_URL` to a PostgreSQL connection string from Neon or another PostgreSQL provider. SQLAlchemy selects SQLite connection options only when the URL starts with `sqlite`; otherwise it uses PostgreSQL through `psycopg2-binary`. The application calls `Base.metadata.create_all()` at startup; this project does not include a migration tool.
+
+### Deployment Links
+
+Replace these placeholders after deployment:
+
+- Frontend: `LIVE_FRONTEND_URL`
+- Backend/API: `LIVE_BACKEND_URL`
+- Backend health check: `LIVE_BACKEND_URL/api/health`
+- Backend OpenAPI: `LIVE_BACKEND_URL/docs`
+
+`render.yaml` configures a Render Python web service rooted at `backend`, and `frontend/vercel.json` rewrites frontend routes to `index.html` for SPA refreshes.
+
+## API Endpoints
+
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `GET` | `/api/health` | Return `{ "status": "ok" }`. |
+| `POST` | `/api/analyze` | Analyze multipart `text` or `file` input. |
+| `GET` | `/api/reports` | List saved reports, newest first. |
+| `GET` | `/api/reports/{report_id}` | Return one full report. |
+| `DELETE` | `/api/reports/{report_id}` | Delete one report. |
+
+Example requests:
 
 ```powershell
-# Text input
-curl.exe -X POST http://127.0.0.1:8000/api/analyze -F "text=Patient Jane Smith, 52 yo female. Chief complaint: productive cough, fever 38.8 C, HR 98, BP 130/85. History of penicillin allergy. Prescribed Amoxicillin 500mg TID. Impression: Community-acquired pneumonia."
+# Text analysis
+curl.exe -X POST http://127.0.0.1:8000/api/analyze `
+  -F "text=Patient Jane Smith, 52 yo female. Fever 38.8 C."
 
-# File upload
-curl.exe -X POST http://127.0.0.1:8000/api/analyze -F "file=@samples/sample_clinical_note.txt"
+# File analysis
+curl.exe -X POST http://127.0.0.1:8000/api/analyze `
+  -F "file=@samples/clean_note.pdf"
 
-# List reports
+# History and health
 curl.exe http://127.0.0.1:8000/api/reports
-
-# Health check
 curl.exe http://127.0.0.1:8000/api/health
 ```
 
----
+The analyze endpoint returns a `ReportDetail` object with report ID, status, input type, filename, extracted text, structured report, and an error message when applicable. It returns structured error envelopes for empty input, unsupported files, oversized files, invalid files, LLM failures, and schema errors.
 
-## Running Tests
+## Screenshots
 
-```bash
+Add screenshots from the deployed frontend here:
+
+- `[Screenshot: analysis form]` (`screenshots/analysis-form.png`)
+- `[Screenshot: structured report with evidence and warnings]` (`screenshots/report-view.png`)
+- `[Screenshot: report history]` (`screenshots/history.png`)
+
+No screenshots are currently committed in this repository.
+
+## Sample Documents and Results
+
+The `samples` directory contains synthetic typed, incomplete, inconsistent, handwritten, searchable-PDF, scanned-PDF, and recipe inputs. The live evaluation in [samples/EVALUATION.md](samples/EVALUATION.md) records these outcomes:
+
+- `clean_note.txt` and `clean_note.pdf`: `completed`.
+- `incomplete_note.txt`: `completed`; missing age, allergy, dose, RR, and SpO2 information is reported.
+- `inconsistent_note.txt`: `completed_with_warnings`; allergy conflict, implausible HR/temperature, unsupported diagnosis, and duplicate Lisinopril are flagged.
+- `scanned_note.png` and `scanned_note.pdf`: `completed`; the PDF uses the scanned-PDF vision fallback, and no consistency flags remain after fixing the Sumatriptan repetition false positive.
+- `irrelevant_text.txt`: `no_clinical_content`; no clinical data is fabricated.
+
+The machine-readable results are in [samples/sample_results.json](samples/sample_results.json).
+
+## Known Limitations
+
+- Gemini calls are synchronous, so large or scanned documents can take a long time and there is no background job queue or progress polling.
+- Evidence verification uses rapidfuzz partial matching with a threshold of 75; it can miss or accept unusual paraphrases.
+- Medication duplicate detection and brand/generic normalization are heuristic. The current-medication plus “at onset” plan case is intentionally treated as one regimen and unusual wording could be missed or suppressed.
+- The allergy/drug conflict map is a small built-in list, not a comprehensive medication database.
+- Gemini extraction and vision transcription can omit or misread source text; the scanned samples demonstrate omitted photophobia/phonophobia details.
+- There is no authentication, role-based access, audit workflow, or PHI protection layer. Use synthetic data only.
+- SQLite is suitable for local development, while production PostgreSQL operations require a correctly configured external database.
+- Render free-tier cold starts and external LLM latency can affect response time.
+
+## Testing
+
+```powershell
 cd backend
 python -m pytest tests/ -v
 ```
 
-43 tests covering:
-- Endpoint success/failure scenarios
-- Mocked LLM output validation
-- Evidence hallucination detection
-- Consistency rules (allergy conflicts, implausible vitals, duplicates)
-- Input validation (empty, bad type, corrupted files)
-- Summary consistency with report arrays
-
----
-
-## Project Structure
-
-```
-├── backend/
-│   ├── app/
-│   │   ├── api/routes/      # analyze.py, reports.py, health.py
-│   │   ├── core/config.py   # pydantic-settings
-│   │   ├── db/session.py    # SQLAlchemy engine + session
-│   │   ├── models/report.py # ORM model
-│   │   ├── schemas/         # Pydantic schemas (analysis.py, report.py)
-│   │   ├── services/
-│   │   │   ├── analyzer.py          # Pipeline orchestrator
-│   │   │   ├── document_processor.py
-│   │   │   ├── llm_client.py        # Abstract + Gemini implementation
-│   │   │   ├── validators.py        # Evidence fuzzy-match guard
-│   │   │   └── consistency_rules.py # Rule engine
-│   │   └── main.py
-│   ├── tests/
-│   ├── requirements.txt
-│   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── AnalyzeForm.tsx
-│   │   │   ├── ReportView.tsx
-│   │   │   ├── HistoryPage.tsx
-│   │   │   └── Navbar.tsx
-│   │   ├── api.ts
-│   │   ├── types.ts
-│   │   └── App.tsx
-│   ├── index.html
-│   └── vite.config.ts
-├── docs/
-│   ├── architecture.md
-│   ├── ai_ml_design.md
-│   └── technical_decisions.md
-├── samples/
-│   ├── sample_clinical_note.txt
-│   └── sample_discharge_summary.txt
-└── README.md
-```
-
----
-
-## Environment Variables
-
-### Backend (`backend/.env`)
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `DATABASE_URL` | `sqlite:///./dev.db` | DB connection string |
-| `GEMINI_API_KEY` | — | Google AI Studio key |
-| `MODEL_NAME` | `gemini-2.0-flash` | Gemini model ID |
-| `CORS_ORIGINS` | `http://localhost:5173` | Allowed CORS origins (comma-separated) |
-| `MAX_UPLOAD_MB` | `10` | Max file upload size |
-| `MAX_PDF_PAGES` | `10` | Max pages per PDF |
-| `LOG_LEVEL` | `info` | Python logging level |
-
-### Frontend (`frontend/.env`)
-
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `VITE_API_URL` | `""` (uses dev proxy) | Backend root URL for production |
-
----
-
-## Deployment
-
-### Backend → Render
-
-1. Create a new **Web Service** from the `backend/` directory
-2. Build command: `pip install -r requirements.txt`
-3. Start command: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-4. Add environment variables: `DATABASE_URL`, `GEMINI_API_KEY`, `MODEL_NAME`, `CORS_ORIGINS`
-
-### Frontend → Vercel
-
-1. Import the `frontend/` directory
-2. Framework preset: **Vite**
-3. Add environment variable: `VITE_API_URL=https://your-render-app.onrender.com`
-
----
-
-## Security Notes
-
-- **Never commit `.env` files** — `.gitignore` excludes them
-- Rotate credentials immediately if accidentally exposed
-- All clinical data in `samples/` and tests is entirely synthetic
-- The system is not intended for use with real patient data
-
----
+The current suite contains 48 tests covering endpoint behavior, schema and evidence validation, consistency rules, file validation, report persistence, and synthetic sample edge cases.
 
 ## Documentation
 
-- [`docs/architecture.md`](docs/architecture.md) — system design with Mermaid diagrams
-- [`docs/ai_ml_design.md`](docs/ai_ml_design.md) — model selection, prompt design, retry strategy, hallucination guard
-- [`docs/technical_decisions.md`](docs/technical_decisions.md) — key engineering decisions with rationale
+- [docs/architecture.md](docs/architecture.md)
+- [docs/ai_ml_design.md](docs/ai_ml_design.md)
+- [docs/technical_decisions.md](docs/technical_decisions.md)
