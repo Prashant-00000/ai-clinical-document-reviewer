@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import AnalyzeForm from './components/AnalyzeForm'
 import ReportView from './components/ReportView'
@@ -7,6 +7,10 @@ import type { ReportRow } from './types'
 import { Sparkles } from 'lucide-react'
 
 type Page = 'analyze' | 'history'
+
+function pageFromHash(): Page {
+  return window.location.hash === '#history' ? 'history' : 'analyze'
+}
 
 function HeroSection() {
   return (
@@ -57,8 +61,20 @@ function HeroSection() {
 }
 
 export default function App() {
-  const [page, setPage] = useState<Page>('analyze')
+  const [page, setPage] = useState<Page>(pageFromHash)
   const [result, setResult] = useState<ReportRow | null>(null)
+
+  useEffect(() => {
+    const handleHashChange = () => setPage(pageFromHash())
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
+  const navigateTo = (nextPage: Page) => {
+    window.location.hash = nextPage === 'history' ? 'history' : ''
+    setPage(nextPage)
+    if (nextPage === 'analyze') setResult(null)
+  }
 
   const handleResult = (r: ReportRow) => {
     setResult(r)
@@ -70,7 +86,7 @@ export default function App() {
 
   return (
     <div className="animated-gradient-bg" style={{ minHeight: '100vh' }}>
-      <Navbar currentPage={page} onNav={p => { setPage(p); if (p === 'analyze') setResult(null) }} />
+      <Navbar currentPage={page} onNav={navigateTo} />
 
       <main style={{ padding: '0 20px 80px' }}>
         {page === 'analyze' ? (
@@ -103,7 +119,7 @@ export default function App() {
                       </button>
                       <button
                         className="btn-ghost"
-                        onClick={() => setPage('history')}
+                        onClick={() => navigateTo('history')}
                       >
                         View History
                       </button>

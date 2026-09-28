@@ -4,6 +4,8 @@ import { listReports, deleteReport, getReport } from '../api'
 import type { ReportRow } from '../types'
 import ReportView from './ReportView'
 
+const PAGE_SIZE = 20
+
 function statusBadge(status: ReportRow['status']) {
   if (status === 'completed') return <span className="badge-success">Completed</span>
   if (status === 'completed_with_warnings') return <span className="badge-warning">Warnings</span>
@@ -12,10 +14,10 @@ function statusBadge(status: ReportRow['status']) {
   return <span className="badge-muted">Processing</span>
 }
 
-function inputIcon(type: ReportRow['input_type']) {
-  if (type === 'pdf') return '📄'
-  if (type === 'image') return '🖼️'
-  return '📝'
+function inputDetails(type: ReportRow['input_type']) {
+  if (type === 'pdf') return { label: 'PDF', icon: '📄' }
+  if (type === 'image') return { label: 'Image', icon: '🖼️' }
+  return { label: 'Text', icon: '📝' }
 }
 
 export default function HistoryPage() {
@@ -24,6 +26,7 @@ export default function HistoryPage() {
   const [error, setError] = useState('')
   const [selected, setSelected] = useState<ReportRow | null>(null)
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
 
   const load = useCallback(async () => {
     setLoading(true)
@@ -31,6 +34,7 @@ export default function HistoryPage() {
     try {
       const data = await listReports()
       setReports(data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()))
+      setVisibleCount(PAGE_SIZE)
     } catch (e: unknown) {
       setError((e as Error).message || 'Failed to load history.')
     } finally {
@@ -49,6 +53,7 @@ export default function HistoryPage() {
 
   const handleDelete = async (id: string, e: React.MouseEvent) => {
     e.stopPropagation()
+    if (!window.confirm('Delete this report? This cannot be undone.')) return
     setDeleting(id)
     try {
       await deleteReport(id)
@@ -57,6 +62,8 @@ export default function HistoryPage() {
     } catch { /* ignore */ }
     finally { setDeleting(null) }
   }
+
+  const visibleReports = reports.slice(0, visibleCount)
 
   if (loading) return (
     <div className="flex items-center justify-center" style={{ minHeight: 300, gap: 12, color: '#6b7280' }}>
@@ -96,10 +103,13 @@ export default function HistoryPage() {
           <p style={{ fontSize: '0.85rem' }}>Analyse a document to see results here.</p>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: selected ? '340px 1fr' : '1fr', gap: 20, alignItems: 'start' }}>
+        <div className="history-layout" style={{ display: 'grid', gridTemplateColumns: selected ? 'minmax(0, 340px) minmax(0, 1fr)' : 'minmax(0, 1fr)', gap: 20, alignItems: 'start' }}>
           {/* List */}
           <div>
-            {reports.map(row => (
+            {visibleReports.map(row => {
+              const input = inputDetails(row.input_type)
+              const summaryLine = row.summary?.split('\n').find(line => line.trim()) || 'No summary available.'
+              return (
               <div
                 key={row.id}
                 id={`report-row-${row.id}`}
@@ -112,14 +122,22 @@ export default function HistoryPage() {
                 }}
               >
                 <div className="flex items-center gap-3">
-                  <span style={{ fontSize: '1.4rem' }}>{inputIcon(row.input_type)}</span>
+                  <span style={{ fontSize: '1.4rem' }}>{input.icon}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontWeight: 600, fontSize: '0.88rem', color: '#e5e7eb',
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {row.original_filename || `Text input — ${row.id.slice(0, 8)}`}
+                      {input.label}{row.original_filename ? ` · ${row.original_filename}` : ''}
                     </div>
                     <div style={{ fontSize: '0.75rem', color: '#6b7280', marginTop: 2 }}>
                       {new Date(row.created_at).toLocaleString()}
+                    </div>
+                    <div style={{ fontSize: '0.78rem', color: '#9ca3af', marginTop: 6,
+                      overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}
+                      title={summaryLine}>
+                      {summaryLine}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: '#6b7280', marginTop: 4 }}>
+                      ID {row.id.slice(0, 8)}
                     </div>
                   </div>
                   <div className="flex flex-col items-end gap-2">
@@ -145,7 +163,17 @@ export default function HistoryPage() {
                   </div>
                 )}
               </div>
-            ))}
+              )
+            })}
+            {visibleCount < reports.length && (
+              <button
+                className="btn-ghost"
+                style={{ width: '100%', justifyContent: 'center', marginTop: 4 }}
+                onClick={() => setVisibleCount(count => count + PAGE_SIZE)}
+              >
+                Load more ({reports.length - visibleCount} remaining)
+              </button>
+            )}
           </div>
 
           {/* Detail panel */}

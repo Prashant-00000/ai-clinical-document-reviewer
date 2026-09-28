@@ -179,17 +179,29 @@ interface ReportViewProps {
 
 export default function ReportView({ report, status }: ReportViewProps) {
   const hasCriticalFlags = report.potential_inconsistencies.length > 0
+  const quality = report.document_quality
+  const qualityIsPoor = !quality.readable || quality.overall_confidence === 'low'
+  const qualityBadgeClass = qualityIsPoor
+    ? 'badge-danger'
+    : quality.overall_confidence === 'medium'
+      ? 'badge-warning'
+      : 'badge-success'
+  const qualityLabel = qualityIsPoor ? 'Poor quality' : 'Readable'
+  const confidenceLabel = `${quality.overall_confidence[0].toUpperCase()}${quality.overall_confidence.slice(1)} confidence`
 
   return (
     <div className="slide-in" style={{ maxWidth: 860, margin: '0 auto' }}>
       {/* Document quality badge */}
-      <div className="flex items-center gap-3 mb-5">
-        <span className={`badge-${report.document_quality.overall === 'good' ? 'success' : report.document_quality.overall === 'fair' ? 'warning' : 'danger'}`}
-          style={{ textTransform: 'capitalize' }}>
-          Doc Quality: {report.document_quality.overall}
-        </span>
-        {report.document_quality.notes && (
-          <span style={{ fontSize: '0.8rem', color: '#9ca3af' }}>{report.document_quality.notes}</span>
+      <div className="mb-5">
+        <div>
+          <span className={qualityBadgeClass}>
+            Doc Quality: {qualityLabel} · {confidenceLabel}
+          </span>
+        </div>
+        {quality.notes && (
+          <div style={{ fontSize: '0.8rem', color: '#9ca3af', marginTop: 6 }}>
+            {quality.notes}
+          </div>
         )}
       </div>
 

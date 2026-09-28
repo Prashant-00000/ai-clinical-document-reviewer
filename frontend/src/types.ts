@@ -47,7 +47,8 @@ export interface PatientInformation {
 }
 
 export interface DocumentQuality {
-  overall: 'good' | 'fair' | 'poor'
+  readable: boolean
+  overall_confidence: 'high' | 'medium' | 'low'
   notes?: string | null
 }
 
@@ -72,6 +73,7 @@ export interface ReportRow {
   status: 'processing' | 'completed' | 'completed_with_warnings' | 'no_clinical_content' | 'failed'
   input_type: 'text' | 'pdf' | 'image'
   original_filename?: string | null
+  summary?: string | null
   extracted_text?: string | null
   report?: AnalysisReport | null
   error_message?: string | null

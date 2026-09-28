@@ -397,6 +397,12 @@
   padding: 16px;
 }
 
+@media (max-width: 760px) {
+  .history-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
 /* Flex / grid helpers (used in JSX className attrs alongside Tailwind utils) */
 .flex { display: flex; }
 .flex-1 { flex: 1; }
