@@ -1,0 +1,54 @@
+DISCHARGE SUMMARY — SYNTHETIC DATA ONLY
+========================================
+
+Hospital: General City Medical Centre (SYNTHETIC)
+Ward: Cardiology
+Admission Date: 2024-08-20
+Discharge Date: 2024-08-25
+
+PATIENT DETAILS
+Name: Michael Torres
+Age: 67 years
+Sex: Male
+MRN: SYN-00289
+
+DISCHARGE DIAGNOSIS
+1. Non-ST-elevation myocardial infarction (NSTEMI)
+2. Hypertensive urgency
+3. Hyperlipidaemia
+
+ALLERGIES
+Morphine (nausea/vomiting)
+Shellfish (anaphylaxis)
+
+PRESENTING COMPLAINT
+Mr Torres presented to the Emergency Department with 6 hours of central chest
+pain radiating to the left arm, associated with diaphoresis and nausea.
+
+INPATIENT COURSE
+Troponin I peaked at 4.2 ng/mL. ECG showed ST depression V4–V6. Patient was
+commenced on dual antiplatelet therapy (Aspirin 300 mg loading + Clopidogrel
+75 mg OD), LMWH (Enoxaparin 60 mg SC BID), and Atorvastatin 80 mg nocte.
+Coronary angiography on Day 2 revealed 75% stenosis of the LAD; drug-eluting
+stent placed with good result.
+
+VITAL SIGNS AT DISCHARGE
+BP: 128/78 mmHg
+HR: 64 bpm
+Temp: 36.8 °C
+RR: 16 breaths/min
+SpO₂: 98% on room air
+
+DISCHARGE MEDICATIONS
+1. Aspirin 100 mg PO OD (lifelong)
+2. Clopidogrel 75 mg PO OD (12 months)
+3. Atorvastatin 80 mg PO nocte
+4. Bisoprolol 2.5 mg PO OD
+5. Ramipril 5 mg PO OD
+6. GTN spray PRN for chest pain
+
+FOLLOW-UP
+Cardiology outpatient in 4 weeks. Cardiac rehab referral placed.
+
+---
+THIS IS SYNTHETIC CLINICAL DATA FOR TESTING PURPOSES ONLY.

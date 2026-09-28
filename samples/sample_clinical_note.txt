@@ -1,0 +1,66 @@
+SAMPLE CLINICAL NOTE — SYNTHETIC DATA ONLY
+==========================================
+
+Patient: Jane Smith
+DOB: 1972-04-15 (age 52)
+Sex: Female
+MRN: SYN-00142
+Date of Visit: 2024-09-15
+
+CHIEF COMPLAINT
+Productive cough, fever, and shortness of breath for 3 days.
+
+HISTORY OF PRESENT ILLNESS
+Jane Smith is a 52-year-old female presenting with a 3-day history of productive
+cough with yellowish sputum, fever up to 38.8 °C, and progressive shortness of
+breath. She reports mild chest discomfort on deep inspiration. No haemoptysis.
+No recent travel or sick contacts reported.
+
+PAST MEDICAL HISTORY
+- Type 2 Diabetes Mellitus (on Metformin 500 mg BID)
+- Hypertension (on Lisinopril 10 mg OD)
+
+ALLERGIES
+Penicillin (anaphylaxis documented in 2008)
+Aspirin (urticaria)
+
+MEDICATIONS ON ADMISSION
+- Metformin 500 mg PO BID
+- Lisinopril 10 mg PO OD
+
+VITAL SIGNS
+Temperature: 38.8 °C
+Heart Rate: 98 bpm
+Blood Pressure: 130/85 mmHg
+Respiratory Rate: 22 breaths/min
+SpO₂: 94% on room air
+
+PHYSICAL EXAMINATION
+General: Moderately ill-appearing female in mild respiratory distress.
+Respiratory: Decreased breath sounds at right base. Dullness to percussion.
+             Coarse crackles bilateral lower zones. No wheeze.
+Cardiovascular: Regular rate and rhythm. No murmurs.
+Abdomen: Soft, non-tender, non-distended.
+
+INVESTIGATIONS
+CXR: Right lower lobe consolidation consistent with pneumonia.
+WBC: 14.2 × 10⁹/L (elevated)
+CRP: 87 mg/L (elevated)
+Blood glucose: 9.4 mmol/L
+
+ASSESSMENT AND PLAN
+1. Community-acquired pneumonia (right lower lobe)
+   — Prescribed Amoxicillin 500 mg TID × 7 days ← NOTE: patient has penicillin allergy (anaphylaxis)
+   — Consider Azithromycin 500 mg OD as safer alternative given allergy history
+   — Blood cultures sent
+
+2. Type 2 Diabetes — continue Metformin, monitor glucose
+
+3. Hypertension — continue Lisinopril, monitor BP
+
+DISPOSITION
+Admit for IV antibiotics and observation pending culture results.
+
+---
+THIS IS SYNTHETIC CLINICAL DATA FOR TESTING PURPOSES ONLY.
+No real patient information is represented.

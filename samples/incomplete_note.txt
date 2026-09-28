@@ -1,0 +1,34 @@
+OUTPATIENT PROGRESS NOTE
+Patient Name: Alex Taylor
+Sex: Non-binary
+Date of Visit: 2026-04-10
+
+CHIEF COMPLAINT:
+Joint stiffness and pain in both hands and wrists.
+
+HISTORY OF PRESENT ILLNESS:
+Patient reports symmetric morning stiffness lasting over an hour, present for approximately 6 weeks.
+Pain is described as dull aching and throbbing. Denies fever, rash, or weight loss.
+
+ALLERGIES:
+[Not documented in record]
+
+CURRENT MEDICATIONS:
+- Ibuprofen (patient takes daily as needed, dose not documented)
+- Methotrexate (taking once weekly, specific dosage unknown)
+- Folic acid (taking daily, strength unrecorded)
+
+VITALS:
+- BP: 126/82 mmHg
+- HR: 74 bpm
+- Temp: 37.0 C
+
+PHYSICAL EXAM:
+Tenderness and mild swelling noted at MCP and PIP joints bilaterally. Sensation intact.
+
+IMPRESSION:
+Suspected early rheumatoid arthritis.
+
+PLAN:
+1. Complete rheumatology panel (RF, anti-CCP, ESR, CRP).
+2. Follow-up consultation in 2 weeks once baseline lab results return.

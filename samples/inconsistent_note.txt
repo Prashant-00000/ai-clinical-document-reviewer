@@ -1,0 +1,43 @@
+EMERGENCY DEPARTMENT ENCOUNTER
+Patient Name: Arthur Dent
+Age: 64
+Sex: Male
+MRN: SYN-49201
+Date: 2026-05-12
+
+CHIEF COMPLAINT:
+Evaluation of lab work and medication adjustment.
+
+HISTORY OF PRESENT ILLNESS:
+64 yo male presents for follow-up review.
+No acute complaints verbalized. No cough, fever, chills, dysuria, pain, or abdominal symptoms reported.
+
+KNOWN ALLERGIES:
+- Severe penicillin allergy (reported previous hives and throat swelling).
+
+VITAL SIGNS:
+- Blood Pressure: 125/80 mmHg
+- Heart Rate (HR): 300 bpm
+- Temperature: 20.0 C
+- Respiratory Rate: 16 breaths/min
+- SpO2: 98%
+
+PHYSICAL EXAMINATION:
+- General: Alert, no distress.
+- Lungs: Clear bilaterally.
+- Heart: Regular rate and rhythm.
+- Abdomen: Soft, non-tender, non-distended.
+- Extremities: No edema.
+
+DIAGNOSES / IMPRESSION:
+1. Acute cystitis (no symptoms, dysuria, or physical findings documented).
+2. Essential hypertension.
+
+MEDICATIONS PRESCRIBED / ORDERED:
+1. Amoxicillin 500mg PO TID (for suspected bacterial infection).
+2. Lisinopril 10mg PO daily (for blood pressure control).
+3. Lisinopril 20mg PO daily (duplicate prescription order in chart).
+4. Atorvastatin 20mg PO at bedtime.
+
+DISPOSITION:
+Prescriptions sent to pharmacy. Follow up with primary care provider in 1 week.

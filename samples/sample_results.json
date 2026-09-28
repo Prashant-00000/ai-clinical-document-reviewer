@@ -1,0 +1,116 @@
+{
+  "clean_note.txt": {
+    "http_status": 200,
+    "analysis_status": "completed",
+    "input_type": "text",
+    "summary": "CRITICAL FLAGS: None identified.\nPatient: Robert Chen, age 45, Male | Primary Concern/Diagnosis: Acute viral upper respiratory tract infection.\nSymptoms & Vitals: Sore throat for 3 days, Nasal congestion for 3 days, Mild sore throat | HR 72 bpm, BP 120/78 mmHg, Temp 36.8 C, SpO2 99% on room air, RR 16 breaths/min.\nMedications: Acetaminophen 500mg oral every 6 hours as needed for throat pain or headache, Saline nasal spray 2 sprays each nostril twice daily.\nMissing Information: Allergy reaction type / severity is not documented for 'No known drug allergies' (e.g. anaphylaxis, hives, rash).\nReview Required: 0 item(s) require clinical review (0 inconsistency flagged).",
+    "doc_quality_notes": null,
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 1,
+    "missing_info": [
+      "Allergy reaction type / severity is not documented for 'No known drug allergies' (e.g. anaphylaxis, hives, rash)."
+    ],
+    "requires_review": []
+  },
+  "clean_note.pdf": {
+    "http_status": 200,
+    "analysis_status": "completed",
+    "input_type": "pdf",
+    "summary": "CRITICAL FLAGS: None identified.\nPatient: Robert Chen, age 45, Male | Primary Concern/Diagnosis: Acute viral upper respiratory tract infection.\nSymptoms & Vitals: Sore throat, Nasal congestion, Mild headache | HR 72 bpm, BP 120/78 mmHg, Temp 36.8 C, SpO2 99% on room air, RR 16 breaths/min.\nMedications: Acetaminophen 500mg oral every 6 hours as needed for throat pain or headache, Saline nasal spray 2 sprays each nostril twice daily.\nMissing Information: Allergy reaction type / severity is not documented for 'No known drug allergies (NKDA)' (e.g. anaphylaxis, hives, rash).\nReview Required: 0 item(s) require clinical review (0 inconsistency flagged).",
+    "doc_quality_notes": null,
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 1,
+    "missing_info": [
+      "Allergy reaction type / severity is not documented for 'No known drug allergies (NKDA)' (e.g. anaphylaxis, hives, rash)."
+    ],
+    "requires_review": []
+  },
+  "incomplete_note.txt": {
+    "http_status": 200,
+    "analysis_status": "completed",
+    "input_type": "text",
+    "summary": "CRITICAL FLAGS: None identified.\nPatient: Alex Taylor, Non-binary | Primary Concern/Diagnosis: Suspected early rheumatoid arthritis.\nSymptoms & Vitals: Joint stiffness and pain in both hands and wrists, Symmetric morning stiffness lasting over an hour, Dull aching and throbbing pain | HR 74 bpm, BP 126/82 mmHg, Temp 37.0 C.\nMedications: Ibuprofen daily as needed, Methotrexate once weekly, Folic acid daily.\nMissing Information: Patient age; Allergies not documented; Ibuprofen dosage (+9 more).\nReview Required: 0 item(s) require clinical review (0 inconsistency flagged).",
+    "doc_quality_notes": null,
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 12,
+    "missing_info": [
+      "Patient age",
+      "Allergies not documented",
+      "Ibuprofen dosage",
+      "Methotrexate dosage",
+      "Folic acid strength",
+      "Patient age is not documented.",
+      "Allergy information is not documented.",
+      "Dose not documented for medication 'Ibuprofen'.",
+      "Dose not documented for medication 'Methotrexate'.",
+      "Dose not documented for medication 'Folic acid'.",
+      "Respiratory rate (RR) is not documented.",
+      "Oxygen saturation (SpO2) is not documented."
+    ],
+    "requires_review": []
+  },
+  "inconsistent_note.txt": {
+    "http_status": 200,
+    "analysis_status": "completed_with_warnings",
+    "input_type": "text",
+    "summary": "CRITICAL FLAGS: patient has 'penicillin' allergy but is prescribed 'Amoxicillin'; Heart rate of 300 bpm contradicts physical exam finding of regular rate and rhythm.\nPatient: Arthur Dent, age 64, Male | Primary Concern/Diagnosis: Acute cystitis, Essential hypertension.\nSymptoms & Vitals: None documented | HR 300 bpm, BP 125/80 mmHg, Temp 20.0 C, SpO2 98%, RR 16 breaths/min.\nMedications: Amoxicillin 500mg PO TID (for suspected bacterial infection), Lisinopril 10mg PO daily (for blood pressure control), Lisinopril 20mg PO daily (duplicate prescription order in chart).\nMissing Information: None flagged.\nReview Required: 5 item(s) require clinical review (6 inconsistency flagged).",
+    "doc_quality_notes": null,
+    "inconsistencies_count": 6,
+    "inconsistencies": [
+      "Potential allergy conflict: patient has 'penicillin' allergy but is prescribed 'Amoxicillin'.",
+      "Heart rate of 300 bpm contradicts physical exam finding of regular rate and rhythm",
+      "Duplicate orders for Lisinopril with differing doses",
+      "Implausible HR value: 300 bpm (expected 20\u2013220).",
+      "Implausible TEMP value: 20.0 C (expected 30.0\u201345.0).",
+      "Duplicate medication: 'lisinopril' appears 2 times."
+    ],
+    "missing_info_count": 0,
+    "missing_info": [],
+    "requires_review": [
+      "Amoxicillin prescription contraindicated by penicillin allergy",
+      "Abnormal vital signs (HR 300 bpm, Temperature 20.0 C) requiring verification",
+      "Diagnosis of acute cystitis without supporting symptoms or findings",
+      "Duplicate Lisinopril orders",
+      "[concerns] Evidence not verified: Severe penicillin allergy alongside prescription of Amoxicillin"
+    ]
+  },
+  "scanned_note.png": {
+    "http_status": 200,
+    "analysis_status": "completed",
+    "input_type": "image",
+    "summary": "CRITICAL FLAGS: None identified.\nPatient: Maria Garcia, age 38, female | Primary Concern/Diagnosis: Acute migraine without aura.\nSymptoms & Vitals: Severe throbbing headache x 48 hours, Acute left-sided throbbing migraine, Nausea | HR 80 bpm, BP 118/76 mmHg, Temp 36.9 C, SpO2 99%, RR 16.\nMedications: Sumatriptan 50mg PO as needed, Sumatriptan 50mg PO at onset of symptoms.\nMissing Information: None flagged.\nReview Required: 0 item(s) require clinical review (0 inconsistency flagged).",
+    "doc_quality_notes": "Text extracted from image via vision model.",
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 0,
+    "missing_info": [],
+    "requires_review": []
+  },
+  "scanned_note.pdf": {
+    "http_status": 200,
+    "analysis_status": "completed",
+    "input_type": "pdf",
+    "summary": "CRITICAL FLAGS: None identified.\nPatient: Maria Garcia, age 38, female | Primary Concern/Diagnosis: Acute migraine without aura.\nSymptoms & Vitals: Severe throbbing headache, Acute left-sided throbbing migraine, Nausea | HR 80 bpm, BP 118/76 mmHg, Temp 36.9 C, SpO2 99%, RR 16.\nMedications: Sumatriptan 50mg PO as needed, Sumatriptan 50mg PO at onset of symptoms.\nMissing Information: None flagged.\nReview Required: 0 item(s) require clinical review (0 inconsistency flagged).",
+    "doc_quality_notes": "PDF appears to be scanned; used vision model for text extraction.",
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 0,
+    "missing_info": [],
+    "requires_review": []
+  },
+  "irrelevant_text.txt": {
+    "http_status": 200,
+    "analysis_status": "no_clinical_content",
+    "input_type": "text",
+    "summary": "NO CLINICAL CONTENT: The provided document does not contain clinical or medical information (e.g., non-medical text or recipe). No patient data, diagnoses, symptoms, vitals, or medications were identified.",
+    "doc_quality_notes": "No clinical content detected (non-medical document / recipe).",
+    "inconsistencies_count": 0,
+    "inconsistencies": [],
+    "missing_info_count": 0,
+    "missing_info": [],
+    "requires_review": []
+  }
+}

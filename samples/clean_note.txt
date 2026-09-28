@@ -1,0 +1,37 @@
+CLINICAL ENCOUNTER NOTE
+Patient Name: Robert Chen
+Age: 45
+Sex: Male
+MRN: SYN-88210
+Date of Encounter: 2026-03-15
+
+SUBJECTIVE:
+Chief Complaint: Sore throat and nasal congestion for 3 days.
+History of Present Illness:
+45 yo male presents with mild sore throat, nasal congestion, and mild headache starting 3 days ago.
+Denies fever, chills, shortness of breath, chest pain, or dysphagia.
+Allergies: No known drug allergies (NKDA).
+Current Medications: None.
+
+OBJECTIVE:
+Vital Signs:
+- Blood Pressure (BP): 120/78 mmHg
+- Heart Rate (HR): 72 bpm
+- Temperature: 36.8 C
+- Respiratory Rate (RR): 16 breaths/min
+- Oxygen Saturation (SpO2): 99% on room air
+
+Physical Examination:
+- General: Alert and oriented, in no acute distress.
+- HEENT: Mild posterior pharyngeal erythema without exudate. Tympanic membranes intact. Nasal mucosa mildly edematous with clear rhinorrhea.
+- Lungs: Clear to auscultation bilaterally. No wheezing, rales, or rhonchi.
+- Cardiovascular: Regular rate and rhythm, normal S1 and S2, no murmurs.
+
+ASSESSMENT:
+Acute viral upper respiratory tract infection.
+
+PLAN:
+1. Supportive care: adequate oral hydration, rest, and warm saline gargles.
+2. Acetaminophen 500mg oral every 6 hours as needed for throat pain or headache.
+3. Saline nasal spray 2 sprays each nostril twice daily.
+4. Return precautions reviewed: seek immediate medical attention if high fever, difficulty breathing, or inability to tolerate fluids occurs.
