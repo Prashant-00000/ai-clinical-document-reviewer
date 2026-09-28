@@ -125,8 +125,6 @@ For a deployed service, set `DATABASE_URL` to a PostgreSQL connection string fro
 
 ### Deployment Links
 
-Replace these placeholders after deployment:
-
 - Frontend: `https://ai-clinical-document-reviewer-self.vercel.app/`
 - Backend/API: `https://ai-clinical-document-reviewer.onrender.com`
 - Backend health check: `https://ai-clinical-document-reviewer.onrender.com/api/health`
