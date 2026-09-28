@@ -162,13 +162,20 @@ The analyze endpoint returns a `ReportDetail` object with report ID, status, inp
 
 ## Screenshots
 
-Add screenshots from the deployed frontend here:
+### Document Analysis & Upload
+Submit plain text or upload clinical notes, PDFs, or images for automated structured extraction:
 
-- `[Screenshot: analysis form]` (`screenshots/analysis-form.png`)
-- `[Screenshot: structured report with evidence and warnings]` (`screenshots/report-view.png`)
-- `[Screenshot: report history]` (`screenshots/history.png`)
+![Analysis form](screenshots/analysis-form.png)
 
-No screenshots are currently committed in this repository.
+### Structured Report with Clinical Warnings
+Interactive clinical review displaying document quality, critical safety alerts (e.g. penicillin allergy conflict with amoxicillin), and verified clinical extractions:
+
+![Structured report with evidence and warnings](screenshots/report-view.png)
+
+### Report History & Audit Trail
+Dashboard tracking saved clinical reviews, processing status flags, and deterministic priority summaries:
+
+![Report history](screenshots/history.png)
 
 ## Sample Documents and Results
 
