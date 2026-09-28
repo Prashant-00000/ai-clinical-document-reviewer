@@ -1,0 +1,24 @@
+# Core
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+sqlalchemy>=2.0.0
+psycopg2-binary>=2.9.0
+python-multipart>=0.0.6
+
+# Document processing
+Pillow>=10.0.0
+PyMuPDF>=1.23.0
+
+# AI
+google-genai>=1.0.0
+
+# Utilities
+python-dotenv>=1.0.0
+rapidfuzz>=3.0.0
+eval-type-backport>=0.2.0
+
+# Dev / Test
+pytest>=8.0.0
+httpx>=0.25.0
